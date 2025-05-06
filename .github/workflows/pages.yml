@@ -3,7 +3,7 @@ name: Deploy Jekyll site to GitHub Pages
 on:
   push:
     branches:
-      - main
+      - main  # adapte si ta branche est différente
 
 permissions:
   contents: read
@@ -29,10 +29,11 @@ jobs:
       - name: Build the site with Jekyll
         run: bundle exec jekyll build
 
-      - name: Upload artifact for GitHub Pages
-        uses: actions/upload-pages-artifact@v2
+      - name: Upload artifact manually
+        uses: actions/upload-artifact@v4
         with:
-          path: './_site'
+          name: github-pages
+          path: _site/
 
   deploy:
     needs: build
@@ -42,6 +43,12 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: github-pages
+          path: ./_site
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
