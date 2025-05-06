@@ -3,7 +3,7 @@ name: Deploy Jekyll site to GitHub Pages
 on:
   push:
     branches:
-      - main  # Change en fonction de ta branche principale
+      - main
 
 permissions:
   contents: read
@@ -19,7 +19,7 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.1' # Ou celle compatible avec Jekyll
+          ruby-version: '3.1'
 
       - name: Install dependencies
         run: |
@@ -29,10 +29,10 @@ jobs:
       - name: Build the site with Jekyll
         run: bundle exec jekyll build
 
-      - name: Upload artifact
+      - name: Upload artifact for GitHub Pages
         uses: actions/upload-pages-artifact@v2
         with:
-          path: ./_site
+          path: './_site'
 
   deploy:
     needs: build
